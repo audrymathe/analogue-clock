@@ -1,0 +1,187 @@
+ <html>
+ <head>
+ <title>Page Title</title>
+ <script>
+ var canvas;
+ var graphics;
+ var radius ;
+ radius =240;
+
+ function line(x1, y1, x2, y2){
+ graphics.beginPath();
+ graphics.moveTo(x1, y1);
+ graphics.lineTo(x2, y2);
+ graphics.stroke();
+ }
+ function grid(){
+ 
+ 
+  for(var i=0 ;i<=600;i=i+60){
+  
+  line(i,0,i,600);
+  line(0,i,600,i);
+  }
+ }
+ 
+ function middleline(){
+ 
+ graphics.strokeStyle = "red";
+ line(300,0,300,600);
+ line(0,300,600,300);
+ 
+ 
+ }
+
+ 
+ 
+
+ 
+ function circle(){
+ 
+ graphics.strokeStyle = "Black";
+ 
+ for( let theta= 0 ; theta<360 ;theta= theta + 1){
+ 
+ let prevtheta = (theta-1)*(Math.PI/180) ;
+ let x1 = 240*Math.cos(prevtheta) + 300;
+ let y1 = 240*Math.sin(prevtheta) +300;
+ let x2 = 240*Math.cos(theta *Math.PI/180) + 300;
+ let y2 = 240*Math.sin(theta *Math.PI/180) + 300 ;
+ 
+ 
+ line(x1,y1,x2,y2);
+ 
+ 
+ }
+ 
+ }
+ 
+ function drawTime(graphics,radius){
+ 
+  let now = new Date();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+  var second = now.getSeconds();
+  
+  hour = hour%12;
+  hour = 30 * hour;
+  minute = 6* minute;
+  second = 6 * second;
+  
+  
+  
+ 
+  x1 = 300;
+  y1 = 300;
+  lengthH =240*0.5;
+
+//xh and yh are 2nd coordinates of hour hand line
+  xH = x1 + Math.cos((Math.PI / 180.0)*hour - Math.PI/2) * lengthH;
+  yH = y1 + Math.sin((Math.PI / 180.0)*hour - Math.PI/2) * lengthH;
+
+  graphics.moveTo(x1, y1);
+  graphics.lineTo(xH, yH);
+  graphics.stroke();
+  //minute
+  
+  lengthM = 240 *0.6;
+  xM = x1 + Math.cos((Math.PI / 180.0) * minute - Math.PI/2) * lengthM;
+  yM = y1 + Math.sin((Math.PI / 180.0) * minute -Math.PI/2) * lengthM;
+  graphics.moveTo(x1, y1);
+  graphics.lineTo(xM, yM);
+  graphics.stroke();
+  
+  
+  // second
+  lengthS = 240 *0.8;
+  xS = x1 + Math.cos((Math.PI / 180.0) * second - Math.PI/2) * lengthS;
+  yS = y1 + Math.sin((Math.PI / 180.0) * second -Math.PI/2) * lengthS;
+  graphics.strokeStyle = "red";
+  //graphics.moveTo(x1, y1);
+  //graphics.lineTo(xS, yS);
+  //graphics.strokeStyle = "red";
+  line (x1,y1,xS,yS);
+  
+ 
+  
+ }
+ 
+ 
+ function tics(){
+ 
+  graphics.strokeStyle = "Black";
+ 
+ for( let theta= 0 ; theta<360 ;theta= theta + 30){
+ 
+ //let prevtheta = (theta-1)*(Math.PI/180) ;
+ 
+ let x1 = 220*Math.cos(theta*Math.PI/180) +300;
+ let y1 = 220*Math.sin(theta*Math.PI/180) +300;
+ 
+ let x2 = 180*Math.cos(theta *Math.PI/180) +300 ;
+ let y2 = 180*Math.sin(theta *Math.PI/180)  +300;
+ 
+ line(x1,y1,x2,y2);
+ 
+ 
+ 
+ }
+ }
+ 
+ function smalltics(){
+ 
+ for( let theta= 0 ; theta<360 ;theta= theta + 6){
+ 
+ //let prevtheta = (theta-6)*(Math.PI/180) ;
+ 
+ let x1 = 240*Math.cos(theta *Math.PI/180) +300;
+ let y1 = 240*Math.sin(theta *Math.PI/180) +300;
+ 
+ let x2 = (220*Math.cos(theta *Math.PI/180) +300) ;
+ let y2 = (220*Math.sin(theta *Math.PI/180)  +300);
+ 
+ line(x1,y1,x2,y2);
+
+ 
+ 
+ 
+ }
+ 
+ }
+
+
+ function init(){
+ 
+  let d = new Date();
+  document.getElementById("thedate").innerHTML = d;
+ 
+  canvas = document.getElementById("myCanvas");
+  graphics = canvas.getContext("2d");
+  //grid() ;
+ // middleline();
+    
+  graphics.clearRect(0, 0, canvas.width, canvas.height);
+  
+  circle();
+  tics();
+  smalltics();
+  drawTime(graphics,240);
+  setInterval(init,1000);
+  
+   
+  
+ 
+ 
+ }
+ </script>
+ </head>
+ <body onload="init()">
+ <h1>My Heading</h1>
+ <d id = "thedate" > </d>
+ <p>This is a very basic webpage.</p>
+ <canvas id="myCanvas" width="600" height="600"
+ style="border:1px solid #d3d3d3;">
+ Your browser does not support the HTML5 canvas tag.
+</canvas>
+ </body>
+ </html>
